@@ -1,6 +1,5 @@
 package reversiapp;
 
-import javafx.scene.layout.GridPane;
 
 public class HumanPlayer implements Player {
 	int[][] grid;

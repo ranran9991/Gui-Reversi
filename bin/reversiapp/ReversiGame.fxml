@@ -6,8 +6,7 @@
 fx:controller="reversiapp.ReversiGameController" fx:id="root" spacing="10">
 
 	<VBox spacing="10" >
-		<Button>Start Game</Button>
-		<Button>End Game</Button>
+		<Button fx:id="endButton" onAction="#closeButtonAction">End Game</Button>
 	</VBox>
 	
 </HBox>
