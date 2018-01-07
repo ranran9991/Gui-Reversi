@@ -36,6 +36,10 @@ public class ReversiBoard extends GridPane{
 				board[i][j] = 0;
 			}
 		}
+		board[board.length/2][board.length/2] = PLAYERTWO;
+		board[(board.length/2) - 1][(board.length/2) - 1] = PLAYERTWO;
+		board[(board.length/2)][(board.length/2) - 1] = PLAYERONE;
+		board[(board.length/2) - 1][(board.length/2)] = PLAYERONE;
 		line = reader.readLine();
 		playerOneColor = Color.web(line);
 		line = reader.readLine();
