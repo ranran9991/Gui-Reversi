@@ -5,7 +5,8 @@
 <HBox xmlns:fx="http://javafx.com/fxml/1"
 fx:controller="reversiapp.ReversiGameController" fx:id="root" spacing="10">
 
-	<VBox spacing="10" >
+	<VBox spacing="10" alignment = "center_left" >
+		<Label fx:id="turnLabel" alignment = "top_left"></Label>
 		<Button fx:id="endButton" onAction="#closeButtonAction">End Game</Button>
 	</VBox>
 	

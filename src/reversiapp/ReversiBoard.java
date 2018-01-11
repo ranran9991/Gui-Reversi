@@ -8,9 +8,11 @@ import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 
 
@@ -23,6 +25,7 @@ public class ReversiBoard extends GridPane{
 	private static final int FREE = 0;
 	private static final int PLAYERONE = 1;
 	private static final int PLAYERTWO = 2;
+	
 	boolean OneTurn = true;
 	
 	public ReversiBoard(String fileName){
@@ -71,9 +74,8 @@ public class ReversiBoard extends GridPane{
 		}
 	}
 	
-	public void draw() {
+	public void draw(Label label) {
 		this.getChildren().clear();
-		
 		int height = (int)this.getPrefHeight();
 		int width = (int)this.getPrefWidth();
 		
@@ -95,15 +97,23 @@ public class ReversiBoard extends GridPane{
 		}
 		for(Node node : this.getChildren()){
 			node.setOnMouseClicked(e -> {
-				if(OneTurn){
-					playerOne.playTurn(getRowIndex(node), getColumnIndex(node));
-					OneTurn = false;
-					draw();
-				}
-				else{
-					playerTwo.playTurn(getRowIndex(node), getColumnIndex(node));
-					OneTurn = true;
-					draw();
+				/*
+				 * If the color of the tile is white it can be changed
+				 * otherwise don't ever change the color of that tile through events.
+				 */
+				if(((Shape) node).getFill().equals(Color.WHITE)){
+					if(OneTurn){
+						playerOne.playTurn(getRowIndex(node), getColumnIndex(node));
+						OneTurn = false;
+						label.setText("Current Turn: player 1");
+						draw(label);
+					}
+					else{
+						playerTwo.playTurn(getRowIndex(node), getColumnIndex(node));
+						OneTurn = true;
+						label.setText("Current Turn: player 2");
+						draw(label);
+					}
 				}
 			});
 		}

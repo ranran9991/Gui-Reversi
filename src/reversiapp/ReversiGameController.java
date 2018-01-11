@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -14,26 +15,28 @@ public class ReversiGameController implements Initializable{
 	private HBox root;
 	@FXML
 	private Button endButton;
+	@FXML
+	Label turnLabel;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ReversiBoard reversiBoard = new ReversiBoard("/home/ranran9991/workspace-java/ReversiGui/src/reversiapp/settings");
+		ReversiBoard reversiBoard = new ReversiBoard("src/settings");
 		reversiBoard.setPlayers(new HumanPlayer(reversiBoard.board, true), new HumanPlayer(reversiBoard.board, false));
 		reversiBoard.setPrefWidth(400);
 		reversiBoard.setPrefHeight(400);
+		turnLabel.setText("Current turn: player 1");
 		root.getChildren().add(0, reversiBoard);
-		reversiBoard.draw();
-		System.out.println("hello");
+		reversiBoard.draw(turnLabel);
 		//Handeling resize of Height
 		root.heightProperty().addListener((observable, oldValue, newValue) -> {
-			double boardNewHeight = newValue.doubleValue() -120;
+			double boardNewHeight = newValue.doubleValue() -100;
 			reversiBoard.setPrefHeight(boardNewHeight);
-			reversiBoard.draw();
+			reversiBoard.draw(turnLabel);
 		});
 		//Handeling resize of Width
 		root.widthProperty().addListener((observable, oldValue, newValue) -> {
-			double boardNewWidth = newValue.doubleValue() -120;
+			double boardNewWidth = newValue.doubleValue() -100;
 			reversiBoard.setPrefWidth(boardNewWidth);
-			reversiBoard.draw();
+			reversiBoard.draw(turnLabel);
 		});
 	}
 	@FXML
