@@ -102,7 +102,15 @@ public class ReversiBoard extends GridPane{
 				 * otherwise don't ever change the color of that tile through events.
 				 */
 				if(((Shape) node).getFill().equals(Color.WHITE)){
+					/*
+					 * Add chcek to see if game is over
+					 * if so create alertBox and tell who won, then close the stage
+					 */
 					if(OneTurn){
+						/*
+						 * ADD Logic to see if move is valid 
+						 * ADD Logic of how a move is made!
+						 */
 						playerOne.playTurn(getRowIndex(node), getColumnIndex(node));
 						OneTurn = false;
 						label.setText("Current Turn: player 1");
@@ -115,6 +123,13 @@ public class ReversiBoard extends GridPane{
 						draw(label);
 					}
 				}
+				/*
+				 * ADD THIS:
+				 */
+				/*
+				 if(game is over){
+				 AlertBox.display("Game is over", "Game is over, player X won/ its a tie!")
+				 */
 			});
 		}
 	}
