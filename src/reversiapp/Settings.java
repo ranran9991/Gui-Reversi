@@ -53,8 +53,8 @@ public class Settings {
 			color1 = playerOneColor.getValue();
 			color2 = playerTwoColor.getValue();
 			size = choiceBox.getValue();
-			System.out.println("New Color'sRGB = "+color1.getRed()+ " " + color1.getGreen()+ " " + color1.getBlue());
-			System.out.println("New Color'sRGB = "+color2.getRed()+ " " + color2.getGreen()+ " " + color2.getBlue());
+			System.out.println("New Color's RGB = "+color1.getRed()+ " " + color1.getGreen()+ " " + color1.getBlue());
+			System.out.println("New Color's RGB = "+color2.getRed()+ " " + color2.getGreen()+ " " + color2.getBlue());
 			System.out.println("Size: " + size);
 			this.writeChoiceToFile(filePath);
 			window.close();

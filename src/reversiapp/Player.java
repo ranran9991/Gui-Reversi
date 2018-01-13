@@ -2,5 +2,6 @@ package reversiapp;
 
 
 public interface Player {
-	void playTurn(int i, int j);
+	boolean playTurn(int i, int j);
+	boolean hasLegalMove();
 }

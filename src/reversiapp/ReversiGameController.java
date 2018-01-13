@@ -20,10 +20,10 @@ public class ReversiGameController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ReversiBoard reversiBoard = new ReversiBoard("src/settings");
-		reversiBoard.setPlayers(new HumanPlayer(reversiBoard.board, true), new HumanPlayer(reversiBoard.board, false));
+		reversiBoard.setPlayers(new HumanPlayer(reversiBoard, true), new HumanPlayer(reversiBoard, false));
 		reversiBoard.setPrefWidth(400);
 		reversiBoard.setPrefHeight(400);
-		turnLabel.setText("Current turn: player 1");
+		turnLabel.setText("Current turn:\nPlayer 1");
 		root.getChildren().add(0, reversiBoard);
 		reversiBoard.draw(turnLabel);
 		//Handeling resize of Height
