@@ -6,6 +6,10 @@ public class ReversiLogics {
 	private static final int PLAYERONE = 1;
 	private static final int PLAYERTWO = 2;
 	
+	public ReversiLogics(int[][] board) {
+		this.board = board;
+	}
+	
 	public boolean MakeMove(int x, int y, int playerNum) {
 		if (!CheckLegal(x, y, playerNum)) return false; // illegal move
 		// for each direction

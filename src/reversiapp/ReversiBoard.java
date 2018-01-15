@@ -5,14 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-
-
+import alertbox.AlertBox;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeType;
 
 
 
@@ -68,7 +68,7 @@ public class ReversiBoard extends GridPane{
 		catch(IOException e){
 			throw new RuntimeException(e);
 		}
-		logics.board = board;
+		logics = new ReversiLogics(board);
 	}
 	//simple method for setting players
 	public void setPlayers(Player playerOne, Player playerTwo){
@@ -82,16 +82,14 @@ public class ReversiBoard extends GridPane{
 		int height = (int)this.getPrefHeight();
 		int width = (int)this.getPrefWidth();
 		
-		//int cellHeight = height / board.length;
-		//int cellWidth = width / board[0].length;
-		
-		int cellHeight = height/board.length;
-		int cellWidth = width/board[1].length;
+		int min = Math.min(height, width);
+		int cellHeight = min/board.length;
+		int cellWidth = min/board[1].length;
 		//creating rectangles in the board
 		for(int i = 0; i < board.length; i++){
 			for(int j = 0; j < board[i].length; j++){
 				if(board[i][j] == FREE){
-					this.add(new Rectangle(cellHeight,cellWidth, Color.WHITE), j, i);
+					this.add(new Rectangle(cellHeight, cellWidth, Color.LIGHTGRAY), j, i);
 				}
 				else if(board[i][j] == PLAYERONE){
 					this.add(new Rectangle(cellHeight, cellWidth, playerOneColor), j, i);
@@ -103,12 +101,16 @@ public class ReversiBoard extends GridPane{
 		}
 		//setting evens on player mouse click
 		for(Node node : this.getChildren()) {
+			//for every node set border
+			Rectangle rectangle = (Rectangle) node;
+			rectangle.setStroke(Color.BLACK);
+			rectangle.setStrokeType(StrokeType.INSIDE);
 			node.setOnMouseClicked(e -> {
 				/*
 				 * If the color of the tile is white it can be changed
 				 * otherwise don't ever change the color of that tile through events.
 				 */
-				if(((Shape) node).getFill().equals(Color.WHITE)) {
+				if(((Shape) node).getFill().equals(Color.LIGHTGRAY)) {
 					//if its the turn of the first player and he has legal moves
 					if(OneTurn) {
 						if (playerOne.playTurn(getRowIndex(node), getColumnIndex(node)) &&
