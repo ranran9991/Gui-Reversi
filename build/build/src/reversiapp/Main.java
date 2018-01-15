@@ -2,10 +2,10 @@ package reversiapp;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
+import settingspage.Settings;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.fxml.FXMLLoader;
-
 
 public class Main extends Application {
 	@Override

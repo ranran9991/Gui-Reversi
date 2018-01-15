@@ -1,4 +1,4 @@
-package reversiapp;
+package settingspage;
 
 import javafx.stage.*;
 import javafx.scene.*;

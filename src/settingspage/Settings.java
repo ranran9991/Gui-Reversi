@@ -1,4 +1,4 @@
-package reversiapp;
+package settingspage;
 
 import javafx.stage.*;
 import javafx.scene.*;
@@ -10,10 +10,23 @@ import java.util.Formatter;
 
 import javafx.geometry.*;
 
-public class Settings {
-		Color color1;
-		Color color2;
-		int size;
+public class Settings {	
+	/**
+	 * Color variable of the first player 
+	 */
+	Color color1;
+	/**
+	 * Color variable of the second player
+	 */
+	Color color2;
+	/**
+	 * Size of the bboard
+	 */
+	int size;
+	
+	/**
+	 * This function displays the seetings page
+	 */
 	public void display(){
 		Stage window = new Stage();
 		/*
@@ -37,6 +50,9 @@ public class Settings {
 		window.setHeight(initialSceneHeight);
 		window.setTitle("Settings");
 		//for color of first player
+		Label explenationLabel = new Label("Enter game settings"
+											+ "\nNote that you will not be able to play while both player\n"
+											+ "have the same color");
 		Label playerOneLabel = new Label("Player 1 color:");
 		ColorPicker playerOneColor = new ColorPicker(defaultColorOne);
 		//for color of second player
@@ -45,7 +61,7 @@ public class Settings {
 		//for size
 		ChoiceBox<Integer> choiceBox = new ChoiceBox<>();
 		//adding size options
-		for(int i = minSize; i < maxSize; i++ ){
+		for(int i = minSize; i <= maxSize; i++ ){
 			choiceBox.getItems().add(i);
 		}
 		//setting default size value
@@ -57,9 +73,15 @@ public class Settings {
 			color1 = playerOneColor.getValue();
 			color2 = playerTwoColor.getValue();
 			size = choiceBox.getValue();
+			//if both player have the same color
+			if(color1.equals(color2)){
+				e.consume();
+				return;
+			}else{
 			//writing values to file
-			this.writeChoiceToFile(filePath);
-			window.close();
+				this.writeChoiceToFile(filePath);
+				window.close();
+			}
 		});
 		window.setOnCloseRequest(e -> {
 			//This is used so that when a client clicks the red X button
@@ -68,27 +90,29 @@ public class Settings {
 			//and this is not the desired result
 			System.exit(0);
 		});
-		
+
 		VBox layout = new VBox(10);
-		layout.getChildren().addAll(playerOneLabel, playerOneColor, playerTwoLabel, playerTwoColor,choiceBox, button);
+		layout.getChildren().addAll(explenationLabel, playerOneLabel, playerOneColor, playerTwoLabel, playerTwoColor,choiceBox, button);
 		layout.setAlignment(Pos.TOP_LEFT);
 		Scene scene = new Scene(layout);
 		window.setScene(scene);
 		window.showAndWait();
 	}
+	
+	/**
+	 * @param filePath - the path in which this method writes to
+	 * Writes values in format:
+	 * <Size> (int)
+	 * <Color1 hex web value> (String)
+	 * <Color1 hex web value> (String)
+	 */
 	private void writeChoiceToFile(String filePath){
-		/*
-		 * Writes values in format:
-		 * <Size> (int)
-		 * <Color1 hex web value> (String)
-		 * <Color2 hex web value> (String)
-		 */
 		try{
 			//open file
 			Formatter writer = new Formatter(filePath);
 			//format is <Number> \n <String> \n <String>
 			writer.format("%d\n%s\n%s", size,
-				    getColorWebFormat(color1),
+					getColorWebFormat(color1),
 					getColorWebFormat(color2));
 			//closing the file
 			writer.close();
@@ -97,13 +121,15 @@ public class Settings {
 			e.printStackTrace();
 		}
 	}
-	//This method takes a color as input and
-	//calculates the hex web value of the color
-	//returns it in string format
+	
+	/**
+	 * @param color 
+	 * @return web hex value of color as string
+	 */
 	private static String getColorWebFormat(Color color){
 		return String.format( "#%02X%02X%02X",
-	            (int)( color.getRed() * 255 ),
-	            (int)( color.getGreen() * 255 ),
-	            (int)( color.getBlue() * 255 ) );
+				(int)( color.getRed() * 255 ),
+				(int)( color.getGreen() * 255 ),
+				(int)( color.getBlue() * 255 ) );
 	}
 }

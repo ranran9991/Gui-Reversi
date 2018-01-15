@@ -1,4 +1,4 @@
-package reversiapp;
+package alertbox;
 
 import javafx.stage.*;
 import javafx.scene.*;
