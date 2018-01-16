@@ -11,14 +11,29 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class ReversiGameController implements Initializable{
+	/**
+	 * The root HBox layout in which everything is set
+	 */
 	@FXML
 	private HBox root;
+	/**
+	 * Button to finish the game
+	 */
 	@FXML
 	private Button endButton;
+	/**
+	 * Label that tells the client which player should take his turn next
+	 */
 	@FXML
 	Label turnLabel;
+	/**
+	 * Label to tell the players the score of Player 1
+	 */
 	@FXML
 	Label ScoreOneLabel;
+	/**
+	 * Label to tell th eplayers the score of Player 2
+	 */
 	@FXML
 	Label ScoreTwoLabel;
 	@Override
@@ -57,7 +72,11 @@ public class ReversiGameController implements Initializable{
 			reversiBoard.draw(turnLabel, ScoreOneLabel, ScoreTwoLabel);
 		});
 	}
-	//function to handle closing with window
+
+	/**
+	 * Function that is called after clicking the exit button
+	 * handles the closing of the window
+	 */
 	@FXML
 	private void closeButtonAction(){
 		//get a handle of the stage

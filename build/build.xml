@@ -106,7 +106,6 @@
 				<attribute name="Implementation-Title" value="Reversi Game"/>
 				<attribute name="Implementation-Version" value="1.0"/>
 				<attribute name="Main-class" value="reversiapp.Main"/>
-				<attribute name="JavaFX-Feature-Proxy" value="None"/>
 			</manifest>
 		</fx:jar>
 	

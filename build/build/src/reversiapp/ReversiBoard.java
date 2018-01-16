@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeType;
 
 
 
@@ -21,6 +22,7 @@ public class ReversiBoard extends GridPane{
 	Color playerOneColor;
 	Player playerTwo;
 	Color playerTwoColor;
+	ReversiLogics logics;
 	private static final int FREE = 0;
 	private static final int PLAYERONE = 1;
 	private static final int PLAYERTWO = 2;
@@ -66,6 +68,7 @@ public class ReversiBoard extends GridPane{
 		catch(IOException e){
 			throw new RuntimeException(e);
 		}
+		logics = new ReversiLogics(board);
 	}
 	//simple method for setting players
 	public void setPlayers(Player playerOne, Player playerTwo){
@@ -79,16 +82,14 @@ public class ReversiBoard extends GridPane{
 		int height = (int)this.getPrefHeight();
 		int width = (int)this.getPrefWidth();
 		
-		//int cellHeight = height / board.length;
-		//int cellWidth = width / board[0].length;
-		
-		int cellHeight = height/board.length;
-		int cellWidth = width/board[1].length;
+		int min = Math.min(height, width);
+		int cellHeight = min/board.length;
+		int cellWidth = min/board[1].length;
 		//creating rectangles in the board
 		for(int i = 0; i < board.length; i++){
 			for(int j = 0; j < board[i].length; j++){
 				if(board[i][j] == FREE){
-					this.add(new Rectangle(cellHeight,cellWidth, Color.WHITE), j, i);
+					this.add(new Rectangle(cellHeight, cellWidth, Color.LIGHTGRAY), j, i);
 				}
 				else if(board[i][j] == PLAYERONE){
 					this.add(new Rectangle(cellHeight, cellWidth, playerOneColor), j, i);
@@ -100,39 +101,42 @@ public class ReversiBoard extends GridPane{
 		}
 		//setting evens on player mouse click
 		for(Node node : this.getChildren()) {
+			//for every node set border
+			Rectangle rectangle = (Rectangle) node;
+			rectangle.setStroke(Color.BLACK);
+			rectangle.setStrokeType(StrokeType.INSIDE);
 			node.setOnMouseClicked(e -> {
 				/*
 				 * If the color of the tile is white it can be changed
 				 * otherwise don't ever change the color of that tile through events.
 				 */
-				if(((Shape) node).getFill().equals(Color.WHITE)) {
+				if(((Shape) node).getFill().equals(Color.LIGHTGRAY)) {
 					//if its the turn of the first player and he has legal moves
 					if(OneTurn) {
 						if (playerOne.playTurn(getRowIndex(node), getColumnIndex(node)) &&
 								playerTwo.hasLegalMove()) {
 							OneTurn = false;
-							label.setText("Current Turn:\nPlayer 1");
-							ScoreOneLabel.setText("Player 1 Score: " + this.CountSign(PLAYERONE));
-							ScoreTwoLabel.setText("Player 2 Score: " + this.CountSign(PLAYERTWO));
+							label.setText("Current Turn:\nPlayer 2");
 						}
+						
 					}
 					//if the turn of the second player and he has legal moves
 					else {
 						if (playerTwo.playTurn(getRowIndex(node), getColumnIndex(node)) &&
 								playerOne.hasLegalMove()) {
 							OneTurn = true;
-							label.setText("Current Turn:\nPlayer 2");
-							ScoreOneLabel.setText("Player 1 Score: " + this.CountSign(PLAYERONE));
-							ScoreTwoLabel.setText("Player 2 Score: " + this.CountSign(PLAYERTWO));
+							label.setText("Current Turn:\nPlayer 1");
 						}
 					}
+					ScoreOneLabel.setText("Player 1 Score: " + logics.CountSign(PLAYERONE));
+					ScoreTwoLabel.setText("Player 2 Score: " + logics.CountSign(PLAYERTWO));
 					draw(label, ScoreOneLabel, ScoreTwoLabel);
 				}
 				//check after every move if it is over
-				 if(End()) {
+				 if(logics.End()) {
 					 String alert = "Game is over, ";
-					 int countOne = CountSign(PLAYERONE);
-					 int countTwo = CountSign(PLAYERTWO);
+					 int countOne = logics.CountSign(PLAYERONE);
+					 int countTwo = logics.CountSign(PLAYERTWO);
 					 if (countOne > countTwo)
 						 alert += "player 1 won!";
 					 else if (countTwo > countOne)
@@ -144,93 +148,5 @@ public class ReversiBoard extends GridPane{
 				 
 			});
 		}
-	}
-	
-	public boolean MakeMove(int x, int y, int playerNum) {
-		if (!CheckLegal(x, y, playerNum)) return false; // illegal move
-		// for each direction
-		for (int i = -1, j; i <= 1; i++)
-			for (j = -1; j <= 1; j++)
-				if (i != 0 || j != 0)
-					// making the move in this direction
-					MakeMoveDir(x+i, y+j, i, j, playerNum);
-		board[x][y] = playerNum; // assigning the number to the given place
-		return true;
-	}
-	
-	private boolean MakeMoveDir(int x, int y, int i, int j, int playerNum) {
-		int height = board.length;
-		int width = board[1].length;
-		if (x >= height || x < 0 || y >= width || y < 0) return false;
-		int place = board[x][y];
-		if (place == 0) return false; // if reached a zero, return false
-		if (place == playerNum) return true; // if reached the right number, end and return true
-		// if this direction is legal
-		if (MakeMoveDir(x+i, y+j, i, j, playerNum)) {
-			// assign the number to the place
-			board[x][y] = playerNum;
-			return true;
-		}
-		return false; // else, this direction is illegal and return false
-	}
-	
-	public boolean CheckLegal(int x, int y, int playerNum) {
-		int height = board.length;
-		int width = board[1].length;
-		if (x >= height || x < 0 || y >= width || y < 0) return false;
-		if (board[x][y] != 0) return false;
-		// checking for each direction
-		for (int i = -1, j; i <= 1; i++)
-			for (j = -1; j <= 1; j++)
-				if (i != 0 || j != 0)
-					// if there is a valid direction, return true
-					if (CheckLegalDir(x+i, y+j, i, j, playerNum)) return true;
-		// else, return false
-		return false;
-	}
-	
-	private boolean CheckLegalDir(int x, int y, int i, int j, int playerNum) {
-		int height = board.length;
-		int width = board[1].length;
-		if (x >= height || x < 0 || y >= width || y < 0) return false;
-		int place = board[x][y];
-		if (place == 0) return false; // if reached a zero, return false
-		if (place == playerNum) {
-			/* if another place with the right number was found in the direction
-			 * but it is next to the place we started searching from, return false
-			 */
-			if (board[x-i][y-j] == 0) return false;
-			return true; // else, the right number was found in the given direction
-		}
-		// if reached the other number, continue searching in the same direction
-		return CheckLegalDir(x+i, y+j, i, j, playerNum);
-	}
-	
-	public boolean PossibleMoveExists(int playerNum) {
-		int height = board.length;
-		int width = board[1].length;
-		// for all places
-		for (int i = 0, j; i < height; i++)
-			for (j = 0; j < width; j++)
-				// if move is legal in some place, return true
-				if (CheckLegal(i, j, playerNum)) return true;
-		// else, return false
-		return false;
-	}
-	
-	private boolean End() {
-		return !(PossibleMoveExists(PLAYERONE) || PossibleMoveExists(PLAYERTWO));
-	}
-	
-	public int CountSign(int playerNum) {
-		int height = board.length;
-		int width = board[1].length;
-		int count = 0;
-		// for all places
-		for (int i = 0, j; i < height; i++)
-			for (j = 0; j < width; j++)
-				// if given char was found, increase the counter
-				if (board[i][j] == playerNum) ++count;
-		return count;
 	}
 }

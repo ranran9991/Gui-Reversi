@@ -20,12 +20,12 @@ public class Settings {
 	 */
 	Color color2;
 	/**
-	 * Size of the bboard
+	 * Size of the board
 	 */
 	int size;
 	
 	/**
-	 * This function displays the seetings page
+	 * This function displays the settings page
 	 */
 	public void display(){
 		Stage window = new Stage();
@@ -40,8 +40,8 @@ public class Settings {
 		//make sure minSize < defaultBoardSize < maxSize
 		final int defaultBoardSize = 8;
 		//default color values
-		final Color defaultColorOne = Color.RED;
-		final Color defaultColorTwo = Color.BLUE;
+		final Color defaultColorOne = Color.GREEN;
+		final Color defaultColorTwo = Color.YELLOW;
 		//default scene size values
 		final double initialSceneWidth = 400;
 		final double initialSceneHeight = 400;
@@ -59,20 +59,21 @@ public class Settings {
 		Label playerTwoLabel = new Label("Player 2 color:");
 		ColorPicker playerTwoColor = new ColorPicker(defaultColorTwo);
 		//for size
-		ChoiceBox<Integer> choiceBox = new ChoiceBox<>();
+		Label sizeLabel = new Label("Choose size of board:");
+		ChoiceBox<Integer> sizeChoiceBox = new ChoiceBox<>();
 		//adding size options
 		for(int i = minSize; i <= maxSize; i++ ){
-			choiceBox.getItems().add(i);
+			sizeChoiceBox.getItems().add(i);
 		}
 		//setting default size value
-		choiceBox.setValue(defaultBoardSize);
+		sizeChoiceBox.setValue(defaultBoardSize);
 		//play button
 		Button button = new Button("Play!");
 		button.setOnAction(e -> {
 			//setting the taken values from user
 			color1 = playerOneColor.getValue();
 			color2 = playerTwoColor.getValue();
-			size = choiceBox.getValue();
+			size = sizeChoiceBox.getValue();
 			//if both player have the same color
 			if(color1.equals(color2)){
 				e.consume();
@@ -92,7 +93,7 @@ public class Settings {
 		});
 
 		VBox layout = new VBox(10);
-		layout.getChildren().addAll(explenationLabel, playerOneLabel, playerOneColor, playerTwoLabel, playerTwoColor,choiceBox, button);
+		layout.getChildren().addAll(explenationLabel, playerOneLabel, playerOneColor, playerTwoLabel, playerTwoColor, sizeLabel, sizeChoiceBox, button);
 		layout.setAlignment(Pos.TOP_LEFT);
 		Scene scene = new Scene(layout);
 		window.setScene(scene);
@@ -102,9 +103,9 @@ public class Settings {
 	/**
 	 * @param filePath - the path in which this method writes to
 	 * Writes values in format:
-	 * <Size> (int)
+	 * <Size> (integer)
 	 * <Color1 hex web value> (String)
-	 * <Color1 hex web value> (String)
+	 * <Color2 hex web value> (String)
 	 */
 	private void writeChoiceToFile(String filePath){
 		try{

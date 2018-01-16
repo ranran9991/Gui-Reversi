@@ -7,7 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * @author Ran Algiser and Ron Edi
+ *
+ */
 public class Main extends Application {
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -15,7 +20,6 @@ public class Main extends Application {
 			settings.display();
 			HBox root = (HBox)FXMLLoader.load(getClass().getResource("ReversiGame.fxml"));
 			Scene scene = new Scene(root,520,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.setTitle("Reversi Game");
 			primaryStage.setScene(scene);

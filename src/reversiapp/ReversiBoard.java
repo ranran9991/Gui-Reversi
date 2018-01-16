@@ -116,21 +116,20 @@ public class ReversiBoard extends GridPane{
 						if (playerOne.playTurn(getRowIndex(node), getColumnIndex(node)) &&
 								playerTwo.hasLegalMove()) {
 							OneTurn = false;
-							label.setText("Current Turn:\nPlayer 1");
-							ScoreOneLabel.setText("Player 1 Score: " + logics.CountSign(PLAYERONE));
-							ScoreTwoLabel.setText("Player 2 Score: " + logics.CountSign(PLAYERTWO));
+							label.setText("Current Turn:\nPlayer 2");
 						}
+						
 					}
 					//if the turn of the second player and he has legal moves
 					else {
 						if (playerTwo.playTurn(getRowIndex(node), getColumnIndex(node)) &&
 								playerOne.hasLegalMove()) {
 							OneTurn = true;
-							label.setText("Current Turn:\nPlayer 2");
-							ScoreOneLabel.setText("Player 1 Score: " + logics.CountSign(PLAYERONE));
-							ScoreTwoLabel.setText("Player 2 Score: " + logics.CountSign(PLAYERTWO));
+							label.setText("Current Turn:\nPlayer 1");
 						}
 					}
+					ScoreOneLabel.setText("Player 1 Score: " + logics.CountSign(PLAYERONE));
+					ScoreTwoLabel.setText("Player 2 Score: " + logics.CountSign(PLAYERTWO));
 					draw(label, ScoreOneLabel, ScoreTwoLabel);
 				}
 				//check after every move if it is over
