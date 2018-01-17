@@ -22,7 +22,7 @@ public class ReversiBoard extends GridPane{
 	Color playerOneColor;
 	Player playerTwo;
 	Color playerTwoColor;
-	ReversiLogics logics;
+	GameLogic logics;
 	private static final int FREE = 0;
 	private static final int PLAYERONE = 1;
 	private static final int PLAYERTWO = 2;

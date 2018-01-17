@@ -6,6 +6,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.control.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Formatter;
 
 import javafx.geometry.*;
@@ -37,11 +39,15 @@ public class Settings {
 		//default board size values
 		final int minSize = 4;
 		final int maxSize = 20;
-		//make sure minSize < defaultBoardSize < maxSize
-		final int defaultBoardSize = 8;
+		try{
+		BufferedReader reader = new BufferedReader(new FileReader(filePath));
+		
+		
+		final int defaultBoardSize = Integer.parseInt(reader.readLine());
 		//default color values
-		final Color defaultColorOne = Color.GREEN;
-		final Color defaultColorTwo = Color.YELLOW;
+		Color defaultColorOne = Color.web(reader.readLine());
+		Color defaultColorTwo = Color.web(reader.readLine());
+		reader.close();
 		//default scene size values
 		final double initialSceneWidth = 400;
 		final double initialSceneHeight = 400;
@@ -98,6 +104,10 @@ public class Settings {
 		Scene scene = new Scene(layout);
 		window.setScene(scene);
 		window.showAndWait();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	/**

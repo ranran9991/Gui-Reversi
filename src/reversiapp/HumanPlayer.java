@@ -2,7 +2,7 @@ package reversiapp;
 
 
 public class HumanPlayer implements Player {
-	ReversiLogics logics;
+	GameLogic logics;
 	boolean isPlayerOne;
 	int playerNum;
 	

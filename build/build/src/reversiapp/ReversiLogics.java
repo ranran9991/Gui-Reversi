@@ -1,6 +1,6 @@
 package reversiapp;
 
-public class ReversiLogics {
+public class ReversiLogics implements GameLogic{
 	int[][] board;
 	private static final int FREE = 0;
 	private static final int PLAYERONE = 1;
