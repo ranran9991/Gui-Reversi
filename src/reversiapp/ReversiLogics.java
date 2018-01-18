@@ -5,6 +5,7 @@ public class ReversiLogics implements GameLogic{
 	private static final int FREE = 0;
 	private static final int PLAYERONE = 1;
 	private static final int PLAYERTWO = 2;
+	private static final int AVAILAVLE = 3;
 	
 	public ReversiLogics(int[][] board) {
 		this.board = board;
@@ -27,7 +28,7 @@ public class ReversiLogics implements GameLogic{
 		int width = board[1].length;
 		if (x >= height || x < 0 || y >= width || y < 0) return false;
 		int place = board[x][y];
-		if (place == FREE) return false; // if reached a zero, return false
+		if (place == FREE || place == AVAILAVLE) return false; // if reached a zero, return false
 		if (place == playerNum) return true; // if reached the right number, end and return true
 		// if this direction is legal
 		if (MakeMoveDir(x+i, y+j, i, j, playerNum)) {
@@ -42,7 +43,7 @@ public class ReversiLogics implements GameLogic{
 		int height = board.length;
 		int width = board[1].length;
 		if (x >= height || x < 0 || y >= width || y < 0) return false;
-		if (board[x][y] != FREE) return false;
+		if (board[x][y] != FREE && board[x][y] != AVAILAVLE) return false;
 		// checking for each direction
 		for (int i = -1, j; i <= 1; i++)
 			for (j = -1; j <= 1; j++)
@@ -58,12 +59,12 @@ public class ReversiLogics implements GameLogic{
 		int width = board[1].length;
 		if (x >= height || x < 0 || y >= width || y < 0) return false;
 		int place = board[x][y];
-		if (place == 0) return false; // if reached a zero, return false
+		if (place == FREE || place == AVAILAVLE) return false; // if reached a zero, return false
 		if (place == playerNum) {
 			/* if another place with the right number was found in the direction
 			 * but it is next to the place we started searching from, return false
 			 */
-			if (board[x-i][y-j] == 0) return false;
+			if (board[x-i][y-j] == FREE || board[x-i][y-j] == AVAILAVLE) return false;
 			return true; // else, the right number was found in the given direction
 		}
 		// if reached the other number, continue searching in the same direction
@@ -96,5 +97,16 @@ public class ReversiLogics implements GameLogic{
 				// if given char was found, increase the counter
 				if (board[i][j] == playerNum) ++count;
 		return count;
+	}
+
+	public void UpdateAvailableMoves(int playerNum) {
+		int height = board.length;
+		int width = board[1].length;
+		// for all places
+		for (int i = 0, j; i < height; i++)
+			for (j = 0; j < width; j++)
+				// if move is legal in some place, change to available
+				if (CheckLegal(i, j, playerNum)) board[i][j] = AVAILAVLE;
+				else if (board[i][j] == AVAILAVLE) board[i][j] = FREE;
 	}
 }

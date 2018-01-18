@@ -29,4 +29,8 @@ public interface GameLogic {
 	 * @return true of the game is over, false otherwise
 	 */
 	boolean End();
+	/**
+	 * @param playerNum player 1 or 2
+	 */
+	void UpdateAvailableMoves(int playerNum);
 }

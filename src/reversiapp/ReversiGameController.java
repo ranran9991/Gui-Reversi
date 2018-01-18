@@ -49,7 +49,7 @@ public class ReversiGameController implements Initializable{
 		reversiBoard.setPrefWidth(prefWidth);
 		reversiBoard.setPrefHeight(prefHeight);
 		//setting default label values at pop up of window
-		turnLabel.setText("Current turn:\nPlayer 1");
+		turnLabel.setText("Current turn: Player 1");
 		ScoreOneLabel.setText("Player 1 score: 2");
 		ScoreTwoLabel.setText("Player 2 score: 2");
 		//This lines are used so labels wont be overwritten by the window itself

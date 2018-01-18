@@ -23,5 +23,9 @@ public class HumanPlayer implements Player {
 	public boolean hasLegalMove() {
 		return logics.PossibleMoveExists(playerNum);
 	}
+
+	public void UpdateAvailable() {
+		logics.UpdateAvailableMoves(playerNum);
+	}
 	
 }

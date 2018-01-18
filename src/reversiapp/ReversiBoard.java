@@ -26,6 +26,7 @@ public class ReversiBoard extends GridPane{
 	private static final int FREE = 0;
 	private static final int PLAYERONE = 1;
 	private static final int PLAYERTWO = 2;
+	private static final int AVAILAVLE = 3;
 	
 	boolean OneTurn = true;
 	
@@ -86,6 +87,8 @@ public class ReversiBoard extends GridPane{
 		int cellHeight = min/board.length;
 		int cellWidth = min/board[1].length;
 		//creating rectangles in the board
+		if(OneTurn) playerOne.UpdateAvailable();
+		else playerTwo.UpdateAvailable();
 		for(int i = 0; i < board.length; i++){
 			for(int j = 0; j < board[i].length; j++){
 				if(board[i][j] == FREE){
@@ -96,6 +99,9 @@ public class ReversiBoard extends GridPane{
 				}
 				else if(board[i][j] == PLAYERTWO){
 					this.add(new Rectangle(cellHeight, cellWidth, playerTwoColor), j, i);
+				}
+				else{
+					this.add(new Rectangle(cellHeight, cellWidth, Color.DARKGREY), j, i);
 				}
 			}
 		}
@@ -110,13 +116,13 @@ public class ReversiBoard extends GridPane{
 				 * If the color of the tile is white it can be changed
 				 * otherwise don't ever change the color of that tile through events.
 				 */
-				if(((Shape) node).getFill().equals(Color.LIGHTGRAY)) {
+				if(((Shape) node).getFill().equals(Color.DARKGREY)) {
 					//if its the turn of the first player and he has legal moves
 					if(OneTurn) {
 						if (playerOne.playTurn(getRowIndex(node), getColumnIndex(node)) &&
 								playerTwo.hasLegalMove()) {
 							OneTurn = false;
-							label.setText("Current Turn:\nPlayer 2");
+							label.setText("Current Turn: Player 2");
 						}
 						
 					}
@@ -125,7 +131,7 @@ public class ReversiBoard extends GridPane{
 						if (playerTwo.playTurn(getRowIndex(node), getColumnIndex(node)) &&
 								playerOne.hasLegalMove()) {
 							OneTurn = true;
-							label.setText("Current Turn:\nPlayer 1");
+							label.setText("Current Turn: Player 1");
 						}
 					}
 					ScoreOneLabel.setText("Player 1 Score: " + logics.CountSign(PLAYERONE));

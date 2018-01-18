@@ -13,4 +13,6 @@ public interface Player {
 	 * @return true if player has legal move, false otherwise.
 	 */
 	boolean hasLegalMove();
+	
+	void UpdateAvailable();
 }
