@@ -26,7 +26,6 @@ public class ReversiBoard extends GridPane{
 	private static final int FREE = 0;
 	private static final int PLAYERONE = 1;
 	private static final int PLAYERTWO = 2;
-	private static final int AVAILAVLE = 3;
 	
 	boolean OneTurn = true;
 	
